@@ -9,7 +9,10 @@ import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,13 +24,14 @@ public class java {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
+		Connection connection = null;
 		try {
 			//Indicamos cual driver usar
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			
 			//abrimos una coneccion a la DB usando una url en la que indicamos el
 			//nombre de la base da tos (schema) y como parametros mandamos el usuario y password (SUSTITUIR PASSWORD)
-			Connection connection = 
+			connection = 
 				   DriverManager.getConnection("jdbc:mysql://localhost/mysql?user=root&password=ajedrez21Mysql");
 			
 			//Mostramos el nombre del esquema de base de datos, en este caso es mysql
@@ -49,6 +53,14 @@ public class java {
 			
 		} catch (Exception e) {
 			System.out.println("error");
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException ex) {
+					Logger.getLogger(java.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			}
 		}
 	}
 
