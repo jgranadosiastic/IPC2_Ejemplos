@@ -33,15 +33,17 @@ public class main {
 			//abrimos una coneccion a la DB usando una url en la que indicamos el
 			//nombre de la base da tos (schema) y como parametros mandamos el usuario y password (SUSTITUIR PASSWORD)
 			connection = 
-				   DriverManager.getConnection("jdbc:mysql://localhost?user=root&password=ajedrez21Mysql");
+				   DriverManager.getConnection("jdbc:mysql://localhost?user=root&password=sistemas");
 			
 			OperadorEsquema operador = new OperadorEsquema(connection);
 			
-			operador.borrarEsquema();
+			//operador.borrarEsquema();
 			operador.crearEsquema();
 			operador.seleccionarEsquema();
 			operador.crearTablaEstudiante();
-			
+			operador.crearTablaCurso();
+			operador.crearTablaAsignacion();
+                        operador.insertarEstudiantes();
 		} catch (Exception e) {
 			System.out.println("error");
 			e.printStackTrace(System.out);
