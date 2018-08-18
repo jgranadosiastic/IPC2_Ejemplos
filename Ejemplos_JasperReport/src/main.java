@@ -66,17 +66,18 @@ public class main {
 				   connection);
 			JasperViewer jasperViewer = new JasperViewer(jasperPrintWindow);
 			jasperViewer.setVisible(true);
-			
+
 			
 			// usando beans
 			List<AprobacionCurso> listado = new ArrayList<AprobacionCurso>();
 			listado.add(new AprobacionCurso("nombre test"));
+			listado.add(new AprobacionCurso("nombre test 2"));
 			JasperPrint jasperPrint2 = JasperFillManager.fillReport(
 				   "resources/AprobacionCursos.jasper", null,
 				   new JRBeanCollectionDataSource(listado));
 			
 			exp.setExporterInput(new SimpleExporterInput(jasperPrint2));
-			exp.setExporterOutput(new SimpleOutputStreamExporterOutput("Aprobaciones.pdf"));
+			exp.setExporterOutput(new SimpleOutputStreamExporterOutput("/home/jose/Aprobaciones.pdf"));
 			exp.setConfiguration(conf);
 			exp.exportReport();
 
