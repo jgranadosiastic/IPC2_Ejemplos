@@ -26,13 +26,14 @@ public class java {
 	public static void main(String[] args) {
 		Connection connection = null;
 		try {
-			//Indicamos cual driver usar
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			String user = "root";
+			String password = "ajedrez21Mysql";
+			// La url incluye el esquema a usar, en este caso 'mysql'
+			String urlConnection = "jdbc:mysql://localhost:3306/CONTROL_CURSOS";
 			
-			//abrimos una coneccion a la DB usando una url en la que indicamos el
-			//nombre de la base da tos (schema) y como parametros mandamos el usuario y password (SUSTITUIR PASSWORD)
+			//abrimos una coneccion a la DB usando una url, el usuario y password (SUSTITUIR PASSWORD)
 			connection = 
-				   DriverManager.getConnection("jdbc:mysql://localhost/mysql?user=root&password=ajedrez21Mysql");
+				   DriverManager.getConnection(urlConnection, user, password);
 			
 			//Mostramos el nombre del esquema de base de datos, en este caso es mysql
 			System.out.println("conectado:" + connection.getCatalog());
@@ -40,13 +41,17 @@ public class java {
 			Statement declaracion = connection.createStatement();
 			
 			//ejecutamos la consulta y guardamos los datos en un objeto ResultSet
-			ResultSet resultado = declaracion.executeQuery("SELECT Db, User FROM db;");
+			ResultSet resultado = declaracion.executeQuery("SELECT * FROM ESTUDIANTE");
 			
 			int numeroFila = 1;
 			System.out.println("Datos:");
 			//recorremos cada fila usando el metodo next del resultset.
 			while (resultado.next()) {
-				System.out.println("Fila " + numeroFila + "-" + "Db: " + resultado.getString("Db") + " | User: " + resultado.getString("User"));
+				System.out.printf("Fila %d - %s - %s - %s - %s\n", numeroFila,
+					   resultado.getString("Carnet"),
+					   resultado.getString(2),
+					   resultado.getString("Apellidos"),
+					   resultado.getDate("Fecha_Nacimiento"));
 				numeroFila++;
 			}
 			
