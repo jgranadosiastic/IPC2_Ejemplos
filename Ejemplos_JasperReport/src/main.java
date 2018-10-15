@@ -38,16 +38,14 @@ public class main {
 	public static void main(String[] args) {
 		Connection connection = null;
 		try {
-			//Indicamos cual driver usar
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-
-			String usuario = "root";
+			String user = "root";
 			String password = "ajedrez21Mysql";
-			Properties propiedades = new Properties();
-			propiedades.setProperty("user", usuario);
-			propiedades.setProperty("password", password);
-
-			connection = DriverManager.getConnection(urlBasica, propiedades);
+			// La url incluye el esquema a usar, en este caso 'mysql'
+			String urlConnection = "jdbc:mysql://localhost:3306/CONTROL_CURSOS";
+			
+			//abrimos una coneccion a la DB usando una url, el usuario y password (SUSTITUIR PASSWORD)
+			connection = 
+				   DriverManager.getConnection(urlConnection, user, password);
 
 			// descarga dentro del mismo proyecto
 			JasperPrint jasperPrint = JasperFillManager.fillReport(
@@ -69,7 +67,7 @@ public class main {
 
 			
 			// usando beans
-			List<AprobacionCurso> listado = new ArrayList<AprobacionCurso>();
+			List<AprobacionCurso> listado = new ArrayList<>();
 			listado.add(new AprobacionCurso("nombre test"));
 			listado.add(new AprobacionCurso("nombre test 2"));
 			JasperPrint jasperPrint2 = JasperFillManager.fillReport(
@@ -77,7 +75,7 @@ public class main {
 				   new JRBeanCollectionDataSource(listado));
 			
 			exp.setExporterInput(new SimpleExporterInput(jasperPrint2));
-			exp.setExporterOutput(new SimpleOutputStreamExporterOutput("/home/jose/Aprobaciones.pdf"));
+			exp.setExporterOutput(new SimpleOutputStreamExporterOutput("Aprobaciones.pdf"));
 			exp.setConfiguration(conf);
 			exp.exportReport();
 
